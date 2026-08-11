@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin · La lista del bebé</title>
+  <meta name="robots" content="noindex">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🗝️</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<div class="admin-wrap">
+  <div class="admin-hero">
+    <h1>🗝️ Panel de la lista</h1>
+    <p>Añade y edita regalos, y mira quién ha reservado qué.</p>
+  </div>
+
+  <!-- login -->
+  <div class="admin-login" id="login-box">
+    <p><strong>Clave de acceso</strong></p>
+    <input type="password" id="pass-input" placeholder="La clave secreta…">
+    <button class="btn btn-primary" id="login-btn" style="width:100%">Entrar</button>
+    <p id="login-error" style="color:#c0604a;font-size:.85rem;display:none;margin-top:.5rem">Clave incorrecta 🙈</p>
+  </div>
+
+  <div id="panel" style="display:none">
+
+    <section class="admin-section">
+      <h2>💝 Reservas</h2>
+      <div id="claims-table"></div>
+    </section>
+
+    <section class="admin-section">
+      <h2>➕ Añadir regalo</h2>
+      <form class="admin-form" id="gift-form">
+        <input type="hidden" id="f-id">
+        <div class="full">
+          <label>Nombre *</label>
+          <input type="text" id="f-name" required maxlength="120">
+        </div>
+        <div class="full">
+          <label>Descripción</label>
+          <textarea id="f-desc" rows="2" maxlength="400"></textarea>
+        </div>
+        <div>
+          <label>Categoría</label>
+          <select id="f-cat">
+            <option>Paseo y porteo</option>
+            <option>Sueño</option>
+            <option>Alimentación</option>
+            <option>Baño e higiene</option>
+            <option>Salud y hogar</option>
+            <option>Juego</option>
+            <option>Ropa</option>
+            <option>Otros</option>
+          </select>
+        </div>
+        <div>
+          <label>Precio orientativo</label>
+          <input type="text" id="f-price" placeholder="Ej.: 30–60 €" maxlength="40">
+        </div>
+        <div>
+          <label>Enlace (tienda / ejemplo)</label>
+          <input type="url" id="f-url" placeholder="https://…">
+        </div>
+        <div>
+          <label>Imagen (URL)</label>
+          <input type="url" id="f-img" placeholder="https://…">
+        </div>
+        <div>
+          <label>Prioridad (0-10)</label>
+          <input type="number" id="f-priority" min="0" max="10" value="5">
+        </div>
+        <div class="full" style="display:flex;gap:.6rem">
+          <button type="submit" class="btn btn-primary" id="f-submit">Guardar regalo</button>
+          <button type="button" class="btn btn-ghost" id="f-reset" style="display:none">Cancelar edición</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="admin-section">
+      <h2>🎁 Regalos (<span id="gift-count">0</span>)</h2>
+      <div style="overflow-x:auto">
+        <table class="admin-table">
+          <thead>
+            <tr><th>Regalo</th><th>Categoría</th><th>Precio</th><th>Estado</th><th>Acciones</th></tr>
+          </thead>
+          <tbody id="gifts-tbody"></tbody>
+        </table>
+      </div>
+    </section>
+
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/admin.js"></script>
+</body>
+</html>

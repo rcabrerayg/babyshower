@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>La lista del bebé 💙 Baby Shower</title>
+  <meta name="description" content="Lista de deseos para el baby shower. Elige un regalo y resérvalo para que no haya repetidos.">
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧸</text></svg>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="assets/style.css">
+</head>
+<body>
+
+<header class="hero">
+  <div class="floaties" aria-hidden="true">
+    <svg class="floaty slow" style="top:14%;left:8%" width="54" height="54" viewBox="0 0 54 54"><path d="M38 10a16 16 0 1 0 6 30A19 19 0 1 1 38 10z" fill="#f0dfc0"/></svg>
+    <svg class="floaty" style="top:24%;right:10%" width="30" height="30" viewBox="0 0 30 30"><path d="M15 0l3.5 11.5L30 15l-11.5 3.5L15 30l-3.5-11.5L0 15l11.5-3.5z" fill="#92b4c8" opacity=".55"/></svg>
+    <svg class="floaty slower" style="bottom:18%;left:16%" width="22" height="22" viewBox="0 0 30 30"><path d="M15 0l3.5 11.5L30 15l-11.5 3.5L15 30l-3.5-11.5L0 15l11.5-3.5z" fill="#d9a08b" opacity=".5"/></svg>
+    <svg class="floaty slower" style="top:56%;right:18%" width="72" height="44" viewBox="0 0 72 44"><ellipse cx="24" cy="30" rx="20" ry="13" fill="#fff" opacity=".85"/><ellipse cx="44" cy="24" rx="24" ry="16" fill="#fff" opacity=".85"/></svg>
+    <svg class="floaty" style="bottom:10%;right:34%" width="18" height="18" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13" fill="#a8b79b" opacity=".4"/></svg>
+  </div>
+
+  <p class="kicker">Un bebé viene en camino</p>
+  <h1>La lista <em>del peque</em></h1>
+  <p class="sub">Gracias por acompañarnos en esta aventura. Aquí van algunas ideas de cosas que nos harían mucha ilusión — elige una y resérvala para que no haya regalos repetidos.</p>
+  <span class="hand">— con muchísimas ganas de conocerte 💙</span>
+
+  <div class="progress-wrap">
+    <div class="progress-label">
+      <span>Regalos elegidos</span>
+      <span id="progress-count">…</span>
+    </div>
+    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  </div>
+</header>
+
+<nav class="controls">
+  <div class="controls-inner" id="controls">
+    <button class="chip active" data-cat="*">Todo</button>
+    <!-- chips de categoría se generan aquí -->
+    <label class="toggle-claimed">
+      <input type="checkbox" id="hide-claimed"> Ocultar ya elegidos
+    </label>
+  </div>
+</nav>
+
+<main id="list">
+  <div class="loading">
+    <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    <p>Preparando la lista…</p>
+  </div>
+</main>
+
+<footer>
+  <p class="hand">¡Gracias de corazón!</p>
+  <p>Si prefieres sorprendernos con otra cosa, también nos encantará 🤍</p>
+</footer>
+
+<!-- modal de reserva -->
+<div class="modal-backdrop" id="modal-backdrop">
+  <div class="modal" id="modal">
+    <div id="modal-form">
+      <h3>Reservar <span class="gift-name" id="modal-gift-name"></span></h3>
+      <p class="note">Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.</p>
+      <label for="claimer-name">Tu nombre (opcional)</label>
+      <input type="text" id="claimer-name" maxlength="80" placeholder="Ej.: la tía Carmen">
+      <label for="claimer-message">Un mensajito para el bebé (opcional)</label>
+      <textarea id="claimer-message" rows="2" maxlength="300" placeholder="¡Bienvenido, pequeño!"></textarea>
+      <div class="modal-actions">
+        <button class="btn btn-ghost" id="modal-cancel">Cancelar</button>
+        <button class="btn btn-primary" id="modal-confirm">Reservar 🎁</button>
+      </div>
+    </div>
+    <div id="modal-success" class="success" style="display:none">
+      <div class="big">🧸</div>
+      <h3>¡Reservado!</h3>
+      <p>Mil gracias, nos hace muchísima ilusión.<br>Ya está marcado para que nadie lo repita.</p>
+      <div class="modal-actions">
+        <button class="btn btn-primary" id="modal-close">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2/dist/umd/supabase.min.js"></script>
+<script src="assets/config.js"></script>
+<script src="assets/app.js"></script>
+</body>
+</html>
