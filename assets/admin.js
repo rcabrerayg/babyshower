@@ -6,6 +6,7 @@ const $ = (sel) => document.querySelector(sel);
 let pass = sessionStorage.getItem('babyshower_admin_pass') || '';
 let gifts = [];
 let claims = [];
+let rsvps = [];
 
 function escapeHtml(s) {
   return String(s ?? '').replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
@@ -55,14 +56,48 @@ async function showPanel() {
 }
 
 async function refresh() {
-  const [g, c] = await Promise.all([
+  const [g, c, r] = await Promise.all([
     sb.from('gifts').select('*').order('category').order('priority', { ascending: false }),
     sb.rpc('admin_list_claims', { p_pass: pass }),
+    sb.rpc('admin_list_rsvps', { p_pass: pass }),
   ]);
   gifts = g.data || [];
   claims = c.data || [];
+  rsvps = r.data || [];
+  renderRsvps();
   renderClaims();
   renderGifts();
+}
+
+function renderRsvps() {
+  if (!rsvps.length) {
+    $('#rsvps-summary').innerHTML = '';
+    $('#rsvps-table').innerHTML = '<p style="color:var(--ink-soft)">Todavía no hay confirmaciones.</p>';
+    return;
+  }
+  const yes = rsvps.filter((r) => r.attending);
+  const no = rsvps.filter((r) => !r.attending);
+  const allergies = yes.filter((r) => r.allergies).map((r) => `${r.name}: ${r.allergies}`);
+  $('#rsvps-summary').innerHTML = `
+    <span class="badge free">✅ ${yes.length} confirman</span>
+    <span class="badge taken">❌ ${no.length} no vienen</span>
+    ${allergies.length ? `<p style="margin-top:.5rem;font-size:.85rem"><strong>⚠️ Alergias:</strong> ${allergies.map(escapeHtml).join(' · ')}</p>` : ''}`;
+  $('#rsvps-table').innerHTML = `
+    <div style="overflow-x:auto"><table class="admin-table">
+      <thead><tr><th>Quién</th><th>Viene</th><th>Cómo</th><th>Bebidas</th><th>Alergias</th><th>Mensaje</th><th>Cuándo</th></tr></thead>
+      <tbody>
+        ${rsvps.map((r) => `
+          <tr>
+            <td><strong>${escapeHtml(r.name)}</strong></td>
+            <td>${r.attending ? '✅' : '❌'}</td>
+            <td>${escapeHtml(r.party || '—')}</td>
+            <td>${escapeHtml(r.drinks || '—')}</td>
+            <td>${r.allergies ? `<strong style="color:#c0604a">${escapeHtml(r.allergies)}</strong>` : '—'}</td>
+            <td>${escapeHtml(r.message || '—')}</td>
+            <td>${new Date(r.created_at).toLocaleString('es-ES', { dateStyle: 'short', timeStyle: 'short' })}</td>
+          </tr>`).join('')}
+      </tbody>
+    </table></div>`;
 }
 
 function renderClaims() {

@@ -154,6 +154,24 @@ body::after {
 }
 .no-pressure strong { color: var(--ink); }
 
+.rsvp-cta-wrap { margin-top: 1.4rem; animation: rise .8s .65s ease both; }
+.rsvp-cta {
+  display: inline-block;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: var(--paper);
+  background: var(--ink);
+  text-decoration: none;
+  padding: .65rem 1.5rem .75rem;
+  border-radius: 8px;
+  box-shadow: 2px 3px 0 rgba(62, 58, 52, .25);
+  transform: rotate(-1deg);
+  transition: transform .18s ease, background .18s ease;
+}
+.rsvp-cta:hover { transform: rotate(0deg) translateY(-2px); background: var(--blue-deep); }
+
 /* ————— cuerda de tender (progreso) ————— */
 .clothesline-wrap {
   max-width: 36rem;
