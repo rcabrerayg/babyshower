@@ -56,6 +56,8 @@
             <option>Salud y hogar</option>
             <option>Juego</option>
             <option>Ropa</option>
+            <option>Recuerdos</option>
+            <option>Para los papás</option>
             <option>Otros</option>
           </select>
         </div>
@@ -74,6 +76,12 @@
         <div>
           <label>Prioridad (0-10)</label>
           <input type="number" id="f-priority" min="0" max="10" value="5">
+        </div>
+        <div>
+          <label>Sin límite (∞)</label>
+          <label style="text-transform:none;letter-spacing:0;font-size:.85rem;display:flex;align-items:center;gap:.4rem;margin-top:.5rem">
+            <input type="checkbox" id="f-unlimited" style="width:auto"> Nunca se agota (ej. pañales)
+          </label>
         </div>
         <div class="full" style="display:flex;gap:.6rem">
           <button type="submit" class="btn btn-primary" id="f-submit">Guardar regalo</button>

@@ -10,6 +10,8 @@ const CAT_EMOJI = {
   'Salud y hogar': '🏡',
   'Juego': '🧸',
   'Ropa': '🧦',
+  'Recuerdos': '📸',
+  'Para los papás': '🤍',
   'Otros': '🎁',
 };
 const CAT_ORDER = Object.keys(CAT_EMOJI);
@@ -38,7 +40,7 @@ function escapeHtml(s) {
 async function loadGifts() {
   const { data, error } = await sb
     .from('gifts')
-    .select('id, name, description, url, image_url, price_hint, category, priority, claimed')
+    .select('id, name, description, url, image_url, price_hint, category, priority, claimed, unlimited, claims_count')
     .order('priority', { ascending: false })
     .order('name');
   if (error) {
@@ -65,6 +67,8 @@ const TAPE_COLOR = {
   'Salud y hogar': '#f6e5dd',
   'Juego': '#f6e5dd',
   'Ropa': '#e7ecdf',
+  'Recuerdos': '#f0dfc0',
+  'Para los papás': '#f6e5dd',
   'Otros': '#f0dfc0',
 };
 
@@ -80,8 +84,9 @@ const GARMENTS = [
 ];
 
 function updateProgress() {
-  const total = gifts.length;
-  const taken = gifts.filter((g) => g.claimed).length;
+  const normal = gifts.filter((g) => !g.unlimited);
+  const total = normal.length;
+  const taken = normal.filter((g) => g.claimed).length;
   const label = $('#progress-count');
   label.textContent = taken === 0
     ? 'aún no hay regalos elegidos — ¡estrena la cuerda!'
@@ -139,9 +144,15 @@ function cardHtml(g) {
     : '';
   const rot = seededRot(g.id).toFixed(2);
   const tape = TAPE_COLOR[g.category] || TAPE_COLOR['Otros'];
+  const counter = g.unlimited && g.claims_count > 0
+    ? `<p class="unlimited-count">ya se han apuntado ${g.claims_count} 💛</p>`
+    : '';
+  const button = g.claimed
+    ? ''
+    : `<button class="btn-claim" data-claim="${g.id}">✂️ &nbsp;${g.unlimited ? 'yo también me apunto' : 'lo regalo yo'}</button>`;
   return `
-    <article class="card ${g.claimed ? 'claimed' : ''}" data-id="${g.id}" style="--r:${rot}deg; --tape:${tape}">
-      ${stamp}
+    <article class="card ${g.claimed ? 'claimed' : ''} ${g.unlimited ? 'unlimited' : ''}" data-id="${g.id}" style="--r:${rot}deg; --tape:${tape}">
+      ${g.unlimited ? '<span class="unlimited-badge">∞ para todos</span>' : stamp}
       ${g.image_url ? `<img class="gift-img" src="${escapeHtml(g.image_url)}" alt="" loading="lazy">` : ''}
       <h3>${escapeHtml(g.name)}</h3>
       ${g.description ? `<p class="desc">${escapeHtml(g.description)}</p>` : ''}
@@ -149,7 +160,8 @@ function cardHtml(g) {
         ${g.price_hint ? `<span class="price-tag">≈ ${escapeHtml(g.price_hint)}</span>` : ''}
         ${g.url ? `<a class="idea-link" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">ver idea ↗</a>` : ''}
       </div>
-      ${g.claimed ? '' : `<button class="btn-claim" data-claim="${g.id}">✂️ &nbsp;lo regalo yo</button>`}
+      ${counter}
+      ${button}
     </article>`;
 }
 
@@ -183,10 +195,34 @@ function render() {
           <h2>${escapeHtml(cat)}</h2>
           <span class="count">${free} disponible${free === 1 ? '' : 's'}</span>
         </div>
-        <div class="grid">${items.map(cardHtml).join('')}</div>
+        <div class="grid">${masonryHtml(items)}</div>
       </section>`;
   }).join('');
 }
+
+// masonry manual: reparte las cards en columnas equilibrando la altura estimada
+// (CSS `columns` tiene bugs de pintado en Chrome con cards rotadas/animadas)
+function masonryHtml(items) {
+  const width = listEl.clientWidth || 900;
+  const nCols = Math.max(1, Math.min(4, Math.floor(width / 280)));
+  const cols = Array.from({ length: nCols }, () => ({ h: 0, html: [] }));
+  for (const g of items) {
+    const est = 150
+      + (g.description ? g.description.length * 0.55 : 0)
+      + (g.image_url ? 160 : 0)
+      + (g.unlimited ? 40 : 0);
+    const target = cols.reduce((a, b) => (b.h < a.h ? b : a));
+    target.h += est;
+    target.html.push(cardHtml(g));
+  }
+  return cols.map((c) => `<div class="col">${c.html.join('')}</div>`).join('');
+}
+
+let resizeTimer;
+window.addEventListener('resize', () => {
+  clearTimeout(resizeTimer);
+  resizeTimer = setTimeout(render, 180);
+});
 
 // ————— interacción —————
 
@@ -209,6 +245,9 @@ listEl.addEventListener('click', (e) => {
   selectedGift = gifts.find((g) => g.id === btn.dataset.claim);
   if (!selectedGift) return;
   $('#modal-gift-name').textContent = selectedGift.name;
+  $('#modal-note').textContent = selectedGift.unlimited
+    ? 'Este regalo es para todos: cada aportación suma y nunca se agota. Tu nombre es opcional y solo lo veremos nosotros.'
+    : 'Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.';
   $('#modal-form').style.display = '';
   $('#modal-success').style.display = 'none';
   $('#claimer-name').value = '';
@@ -245,7 +284,15 @@ $('#modal-confirm').addEventListener('click', async () => {
   }
 
   rememberClaim(selectedGift.id);
-  selectedGift.claimed = true;
+  if (selectedGift.unlimited) {
+    selectedGift.claims_count += 1;
+  } else {
+    selectedGift.claimed = true;
+  }
+  $('#success-title').textContent = selectedGift.unlimited ? '¡Apuntado!' : '¡Reservado!';
+  $('#success-text').innerHTML = selectedGift.unlimited
+    ? 'Mil gracias, nos hace muchísima ilusión.<br>Cada aportación suma un montón 💛'
+    : 'Mil gracias, nos hace muchísima ilusión.<br>Ya está marcado para que nadie lo repita.';
   $('#modal-form').style.display = 'none';
   $('#modal-success').style.display = '';
   confettiBurst();

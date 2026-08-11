@@ -242,18 +242,21 @@ main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
   white-space: nowrap;
 }
 
-/* ————— cards: papelitos con washi tape (masonry) ————— */
+/* ————— cards: papelitos con washi tape (masonry por JS) ————— */
 .grid {
-  columns: 272px;
-  column-gap: 1.3rem;
+  display: flex;
+  gap: 1.3rem;
+  align-items: flex-start;
+}
+.grid .col {
+  flex: 1;
+  min-width: 0;
 }
 
 .card {
   --r: 0deg;
   --tape: var(--butter);
   position: relative;
-  display: flow-root;
-  break-inside: avoid;
   margin: .55rem 0 1.5rem;
   background: var(--card);
   border-radius: 4px;
@@ -263,7 +266,8 @@ main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
     0 1px 2px rgba(62, 58, 52, .08),
     0 10px 22px -14px rgba(62, 58, 52, .35);
   transition: transform .25s ease, box-shadow .25s ease;
-  animation: rise .6s ease both;
+  /* ojo: una animación de transform aquí dispara un bug de pintado
+     de Chrome (cards que ocupan hueco pero no se dibujan al hacer scroll) */
 }
 /* esquina doblada */
 .card::after {
@@ -365,6 +369,36 @@ main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
     radial-gradient(circle at 100% 50%, var(--paper) 5px, transparent 5.5px),
     var(--butter);
   transform: rotate(-.8deg) scale(1.02);
+}
+
+/* card ilimitada (ej. pañales): nunca se agota */
+.card.unlimited {
+  background:
+    linear-gradient(150deg, #fffdf8 55%, #fbf3df);
+  outline: 1.7px dashed var(--sage);
+  outline-offset: 4px;
+}
+.unlimited-badge {
+  position: absolute;
+  top: -9px; right: 10px;
+  font-family: var(--font-hand);
+  font-weight: 600;
+  font-size: 1.05rem;
+  line-height: 1;
+  color: #5f7050;
+  background: var(--sage-mist);
+  border: 1.5px solid var(--sage);
+  border-radius: 99px;
+  padding: .28rem .7rem .34rem;
+  transform: rotate(2.5deg);
+  box-shadow: 0 2px 4px -2px rgba(62, 58, 52, .3);
+}
+.unlimited-count {
+  font-family: var(--font-hand);
+  font-size: 1.2rem;
+  color: var(--terra-deep);
+  transform: rotate(-1deg);
+  margin-bottom: .1rem;
 }
 
 /* card reservada */
@@ -598,7 +632,6 @@ footer .hand { font-family: var(--font-hand); font-size: 1.4rem; color: var(--bl
 @media (max-width: 640px) {
   .admin-form { grid-template-columns: 1fr; }
   .toggle-claimed { margin-left: 0; }
-  .grid { columns: 1; }
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -92,7 +92,9 @@ function renderGifts() {
       <td><strong>${escapeHtml(g.name)}</strong>${g.description ? `<br><span style="color:var(--ink-soft)">${escapeHtml(g.description)}</span>` : ''}</td>
       <td>${escapeHtml(g.category)}</td>
       <td>${escapeHtml(g.price_hint || '—')}</td>
-      <td>${g.claimed ? '<span class="badge taken">Reservado</span>' : '<span class="badge free">Disponible</span>'}</td>
+      <td>${g.unlimited
+        ? `<span class="badge free">∞ ilimitado${g.claims_count ? ` · ${g.claims_count}` : ''}</span>`
+        : (g.claimed ? '<span class="badge taken">Reservado</span>' : '<span class="badge free">Disponible</span>')}</td>
       <td style="white-space:nowrap">
         <button class="mini-btn" data-edit="${g.id}">Editar</button>
         ${g.claimed ? `<button class="mini-btn" data-unclaim="${g.id}">Liberar</button>` : ''}
@@ -115,6 +117,7 @@ $('#gift-form').addEventListener('submit', async (e) => {
     p_price_hint: $('#f-price').value.trim() || null,
     p_category: $('#f-cat').value,
     p_priority: parseInt($('#f-priority').value, 10) || 0,
+    p_unlimited: $('#f-unlimited').checked,
   };
   const { error } = id
     ? await sb.rpc('admin_update_gift', { ...fields, p_gift_id: id })
@@ -151,6 +154,7 @@ $('#gifts-tbody').addEventListener('click', async (e) => {
     $('#f-price').value = g.price_hint || '';
     $('#f-cat').value = g.category;
     $('#f-priority').value = g.priority;
+    $('#f-unlimited').checked = !!g.unlimited;
     $('#f-submit').textContent = 'Actualizar regalo';
     $('#f-reset').style.display = '';
     $('#gift-form').scrollIntoView({ behavior: 'smooth' });

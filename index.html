@@ -63,7 +63,7 @@
     <svg class="tag-string" width="110" height="80" viewBox="0 0 110 80" fill="none" aria-hidden="true"><path d="M4 6 C 30 10, 44 28, 55 56" stroke="#8d7f68" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 5"/></svg>
     <div id="modal-form">
       <h3>Reservar <span class="gift-name" id="modal-gift-name"></span></h3>
-      <p class="note">Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.</p>
+      <p class="note" id="modal-note">Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.</p>
       <label for="claimer-name">Tu nombre (opcional)</label>
       <input type="text" id="claimer-name" maxlength="80" placeholder="Ej.: la tía Carmen">
       <label for="claimer-message">Un mensajito para el bebé (opcional)</label>
@@ -75,8 +75,8 @@
     </div>
     <div id="modal-success" class="success" style="display:none">
       <div class="big">🧸</div>
-      <h3>¡Reservado!</h3>
-      <p>Mil gracias, nos hace muchísima ilusión.<br>Ya está marcado para que nadie lo repita.</p>
+      <h3 id="success-title">¡Reservado!</h3>
+      <p id="success-text">Mil gracias, nos hace muchísima ilusión.<br>Ya está marcado para que nadie lo repita.</p>
       <div class="modal-actions">
         <button class="btn btn-primary" id="modal-close">Cerrar</button>
       </div>
