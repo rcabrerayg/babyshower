@@ -28,6 +28,12 @@
   <p class="sub">Gracias por acompañarnos en esta aventura. Aquí van algunas ideas de cosas que nos harían mucha ilusión — elige una y resérvala para que no haya regalos repetidos.</p>
   <span class="hand">— con muchísimas ganas de conocerte 💙</span>
 
+  <div class="no-pressure">
+    <p><strong>Sin ningún compromiso 🤍</strong> Esto son solo ideas para quien le apetezca.
+    Podéis juntaros entre varios para un regalo, traer otra cosa que os haga ilusión…
+    o simplemente venir a darnos un abrazo, que es lo que más nos importa.</p>
+  </div>
+
   <div class="clothesline-wrap">
     <svg id="clothesline" viewBox="0 0 600 96" aria-hidden="true"></svg>
     <div class="clothesline-label" id="progress-count">…</div>
@@ -35,6 +41,10 @@
 </header>
 
 <nav class="controls">
+  <div class="search-box">
+    <span aria-hidden="true">🔍</span>
+    <input type="search" id="search" placeholder="Buscar un regalo…" autocomplete="off">
+  </div>
   <div class="controls-inner" id="controls">
     <button class="chip active" data-cat="*">Todo</button>
     <!-- chips de categoría se generan aquí -->
@@ -53,7 +63,8 @@
 
 <footer>
   <p class="hand">¡Gracias de corazón!</p>
-  <p>Si prefieres sorprendernos con otra cosa, también nos encantará 🤍</p>
+  <p>Nada de esta lista es obligatorio: es solo para ayudar a quien quiera.<br>
+  Si preferís sorprendernos con otra cosa, o regalar algo entre varios, también nos encantará 🤍</p>
 </footer>
 
 <!-- modal de reserva -->
@@ -65,7 +76,7 @@
       <h3>Reservar <span class="gift-name" id="modal-gift-name"></span></h3>
       <p class="note" id="modal-note">Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.</p>
       <label for="claimer-name">Tu nombre (opcional)</label>
-      <input type="text" id="claimer-name" maxlength="80" placeholder="Ej.: la tía Carmen">
+      <input type="text" id="claimer-name" maxlength="80" placeholder="Ej.: la abuela Rosa, o «los primos de Tenerife»">
       <label for="claimer-message">Un mensajito para el bebé (opcional)</label>
       <textarea id="claimer-message" rows="2" maxlength="300" placeholder="¡Bienvenido, pequeño!"></textarea>
       <div class="modal-actions">

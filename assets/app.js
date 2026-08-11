@@ -19,7 +19,13 @@ const CAT_ORDER = Object.keys(CAT_EMOJI);
 let gifts = [];
 let activeCat = '*';
 let hideClaimed = false;
+let searchQuery = '';
 let selectedGift = null;
+
+// búsqueda sin acentos ni mayúsculas
+function normalize(s) {
+  return String(s ?? '').toLowerCase().normalize('NFD').replace(/[̀-ͯ]/g, '');
+}
 
 const $ = (sel) => document.querySelector(sel);
 const listEl = $('#list');
@@ -155,10 +161,7 @@ function cardHtml(g) {
       ${g.image_url ? `<img class="gift-img" src="${escapeHtml(g.image_url)}" alt="" loading="lazy">` : ''}
       <h3>${escapeHtml(g.name)}</h3>
       ${g.description ? `<p class="desc">${escapeHtml(g.description)}</p>` : ''}
-      <div class="meta">
-        ${g.price_hint ? `<span class="price-tag">≈ ${escapeHtml(g.price_hint)}</span>` : ''}
-        ${g.url ? `<a class="idea-link" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">ver idea ↗</a>` : ''}
-      </div>
+      ${g.url ? `<div class="meta"><a class="idea-link" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">ver idea ↗</a></div>` : ''}
       ${counter}
       ${button}
     </article>`;
@@ -168,12 +171,16 @@ function render() {
   updateProgress();
   renderChips();
 
+  const q = normalize(searchQuery.trim());
   const visible = gifts
     .filter((g) => activeCat === '*' || g.category === activeCat)
-    .filter((g) => !hideClaimed || !g.claimed);
+    .filter((g) => !hideClaimed || !g.claimed)
+    .filter((g) => !q || normalize(g.name).includes(q) || normalize(g.description).includes(q) || normalize(g.category).includes(q));
 
   if (!visible.length) {
-    listEl.innerHTML = '<div class="empty">Nada por aquí… ¡prueba otra categoría! 🌿</div>';
+    listEl.innerHTML = q
+      ? '<div class="empty">No encontramos nada con esa búsqueda 🔍 ¡prueba con otra palabra!</div>'
+      : '<div class="empty">Nada por aquí… ¡prueba otra categoría! 🌿</div>';
     return;
   }
 
@@ -238,6 +245,15 @@ $('#hide-claimed').addEventListener('change', (e) => {
   render();
 });
 
+let searchTimer;
+$('#search').addEventListener('input', (e) => {
+  clearTimeout(searchTimer);
+  searchTimer = setTimeout(() => {
+    searchQuery = e.target.value;
+    render();
+  }, 150);
+});
+
 listEl.addEventListener('click', (e) => {
   const btn = e.target.closest('[data-claim]');
   if (!btn) return;
@@ -246,7 +262,7 @@ listEl.addEventListener('click', (e) => {
   $('#modal-gift-name').textContent = selectedGift.name;
   $('#modal-note').textContent = selectedGift.unlimited
     ? 'Este regalo es para todos: cada aportación suma y nunca se agota. Tu nombre es opcional y solo lo veremos nosotros.'
-    : 'Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.';
+    : 'Al reservarlo, desaparecerá como disponible para el resto de invitados. Si sois varios para el mismo regalo, contádnoslo en el mensajito 😉 Tu nombre es opcional y solo lo veremos nosotros.';
   $('#modal-form').style.display = '';
   $('#modal-success').style.display = 'none';
   $('#claimer-name').value = '';
