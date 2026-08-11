@@ -154,14 +154,19 @@ body::after {
 /* ————— controles: tiras de cinta adhesiva ————— */
 .controls {
   position: sticky; top: 0; z-index: 50;
+  background: var(--paper); /* fallback sin color-mix (iOS < 16.2) */
   background: color-mix(in srgb, var(--paper) 90%, transparent);
   backdrop-filter: blur(10px);
   border-bottom: 1px solid var(--line);
   padding: .9rem 1.5rem .7rem;
+  display: flex; flex-wrap: wrap; align-items: center;
+  gap: .4rem 1.2rem;
+  max-width: 75rem; margin: 0 auto;
 }
 .controls-inner {
-  max-width: 72rem; margin: 0 auto;
+  flex: 1 1 auto;
   display: flex; flex-wrap: wrap; gap: .55rem .5rem; align-items: center;
+  min-width: 0;
 }
 .chip {
   font-family: var(--font-hand);
@@ -169,6 +174,7 @@ body::after {
   line-height: 1;
   padding: .5rem 1.1rem .55rem;
   border: none;
+  background: var(--butter); /* fallback sin color-mix */
   background: color-mix(in srgb, var(--butter) 72%, transparent);
   color: var(--ink);
   cursor: pointer;
@@ -183,15 +189,16 @@ body::after {
   background: var(--ink);
   color: var(--paper);
 }
-.chip[data-cat="Sueño"] { background: color-mix(in srgb, var(--blue-mist) 85%, transparent); }
-.chip[data-cat="Alimentación"] { background: color-mix(in srgb, var(--sage-mist) 88%, transparent); }
-.chip[data-cat="Juego"] { background: color-mix(in srgb, var(--terra-mist) 88%, transparent); }
-.chip[data-cat="Ropa"] { background: color-mix(in srgb, var(--blue-mist) 70%, transparent); }
-.chip[data-cat="Baño e higiene"] { background: color-mix(in srgb, var(--sage-mist) 65%, transparent); }
-.chip[data-cat="Salud y hogar"] { background: color-mix(in srgb, var(--terra-mist) 62%, transparent); }
+.chip[data-cat="Sueño"] { background: var(--blue-mist); background: color-mix(in srgb, var(--blue-mist) 85%, transparent); }
+.chip[data-cat="Alimentación"] { background: var(--sage-mist); background: color-mix(in srgb, var(--sage-mist) 88%, transparent); }
+.chip[data-cat="Juego"] { background: var(--terra-mist); background: color-mix(in srgb, var(--terra-mist) 88%, transparent); }
+.chip[data-cat="Ropa"] { background: var(--blue-mist); background: color-mix(in srgb, var(--blue-mist) 70%, transparent); }
+.chip[data-cat="Baño e higiene"] { background: var(--sage-mist); background: color-mix(in srgb, var(--sage-mist) 65%, transparent); }
+.chip[data-cat="Salud y hogar"] { background: var(--terra-mist); background: color-mix(in srgb, var(--terra-mist) 62%, transparent); }
 .chip.active[data-cat] { background: var(--ink); }
 
 .toggle-claimed {
+  flex: 0 0 auto;
   margin-left: auto;
   display: flex; align-items: center; gap: .5rem;
   font-family: var(--font-hand);
@@ -286,6 +293,7 @@ main { max-width: 72rem; margin: 0 auto; padding: 2.5rem 1.5rem 6rem; }
   top: -11px; left: 50%;
   width: 96px; height: 25px;
   transform: translateX(-50%) rotate(-2.5deg);
+  background: var(--tape); /* fallback sin color-mix */
   background: color-mix(in srgb, var(--tape) 78%, transparent);
   clip-path: polygon(3% 10%, 0 50%, 3% 92%, 97% 100%, 100% 45%, 96% 0);
   box-shadow: 0 2px 4px -2px rgba(62, 58, 52, .3);
@@ -629,9 +637,34 @@ footer .hand { font-family: var(--font-hand); font-size: 1.4rem; color: var(--bl
 }
 .admin-form .btn, .admin-login .btn { font-family: var(--font-body); font-size: .95rem; font-weight: 700; }
 
+/* ————— móvil: donde más se verá ————— */
 @media (max-width: 640px) {
   .admin-form { grid-template-columns: 1fr; }
-  .toggle-claimed { margin-left: 0; }
+
+  .hero { padding: 3.2rem 1.25rem 2.6rem; }
+
+  /* filtros: tira deslizable de una sola línea */
+  .controls { padding: .55rem 0 .5rem; gap: 0; display: block; }
+  .controls-inner {
+    flex-wrap: nowrap;
+    overflow-x: auto;
+    padding: .5rem 1rem .55rem; /* aire para rotaciones y sombras */
+    scrollbar-width: none;
+    -webkit-overflow-scrolling: touch;
+  }
+  .controls-inner::-webkit-scrollbar { display: none; }
+  .chip { flex: 0 0 auto; white-space: nowrap; }
+  .toggle-claimed {
+    margin: .15rem 1rem 0;
+    justify-content: flex-end;
+    font-size: 1.05rem;
+  }
+
+  /* la nube y el corazón chocan con el texto en pantallas estrechas */
+  .floaties svg:nth-of-type(4), .floaties svg:nth-of-type(5) { display: none; }
+
+  main { padding: 1.8rem 1.25rem 4rem; }
+  .category { margin-bottom: 2.4rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {

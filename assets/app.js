@@ -127,13 +127,12 @@ function renderChips() {
   const cats = [...new Set(gifts.map((g) => g.category))]
     .sort((a, b) => CAT_ORDER.indexOf(a) - CAT_ORDER.indexOf(b));
   controlsEl.querySelectorAll('.chip[data-cat]:not([data-cat="*"])').forEach((c) => c.remove());
-  const toggle = controlsEl.querySelector('.toggle-claimed');
   for (const cat of cats) {
     const btn = document.createElement('button');
     btn.className = 'chip' + (activeCat === cat ? ' active' : '');
     btn.dataset.cat = cat;
     btn.textContent = `${CAT_EMOJI[cat] || '🎁'} ${cat}`;
-    controlsEl.insertBefore(btn, toggle);
+    controlsEl.appendChild(btn);
   }
 }
 
