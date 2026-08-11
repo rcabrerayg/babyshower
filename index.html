@@ -15,11 +15,12 @@
 
 <header class="hero">
   <div class="floaties" aria-hidden="true">
-    <svg class="floaty slow" style="top:14%;left:8%" width="54" height="54" viewBox="0 0 54 54"><path d="M38 10a16 16 0 1 0 6 30A19 19 0 1 1 38 10z" fill="#f0dfc0"/></svg>
-    <svg class="floaty" style="top:24%;right:10%" width="30" height="30" viewBox="0 0 30 30"><path d="M15 0l3.5 11.5L30 15l-11.5 3.5L15 30l-3.5-11.5L0 15l11.5-3.5z" fill="#92b4c8" opacity=".55"/></svg>
-    <svg class="floaty slower" style="bottom:18%;left:16%" width="22" height="22" viewBox="0 0 30 30"><path d="M15 0l3.5 11.5L30 15l-11.5 3.5L15 30l-3.5-11.5L0 15l11.5-3.5z" fill="#d9a08b" opacity=".5"/></svg>
-    <svg class="floaty slower" style="top:56%;right:18%" width="72" height="44" viewBox="0 0 72 44"><ellipse cx="24" cy="30" rx="20" ry="13" fill="#fff" opacity=".85"/><ellipse cx="44" cy="24" rx="24" ry="16" fill="#fff" opacity=".85"/></svg>
-    <svg class="floaty" style="bottom:10%;right:34%" width="18" height="18" viewBox="0 0 30 30"><circle cx="15" cy="15" r="13" fill="#a8b79b" opacity=".4"/></svg>
+    <!-- doodles a trazo de boli -->
+    <svg class="floaty slow" style="top:13%;left:8%" width="52" height="52" viewBox="0 0 52 52" fill="none"><path d="M36 8a17 17 0 1 0 8 29c-5 3-12 3-17-2a15 15 0 0 1 9-27z" stroke="#c9b891" stroke-width="2.2" stroke-linejoin="round"/></svg>
+    <svg class="floaty" style="top:22%;right:9%" width="32" height="32" viewBox="0 0 32 32" fill="none"><path d="M16 3l3.2 9.4L29 16l-9.8 3.6L16 29l-3.2-9.4L3 16l9.8-3.6z" stroke="#92b4c8" stroke-width="2" stroke-linejoin="round"/></svg>
+    <svg class="floaty slower" style="bottom:22%;left:15%" width="24" height="24" viewBox="0 0 32 32" fill="none"><path d="M16 3l3.2 9.4L29 16l-9.8 3.6L16 29l-3.2-9.4L3 16l9.8-3.6z" stroke="#d9a08b" stroke-width="2" stroke-linejoin="round"/></svg>
+    <svg class="floaty slower" style="top:50%;right:16%" width="78" height="42" viewBox="0 0 78 42" fill="none"><path d="M12 32c-6 0-8-7-3-10-1-8 8-12 13-7 2-7 13-8 16-1 7-3 14 3 11 10 5 2 4 8-2 8z" stroke="#c9b891" stroke-width="2.2" stroke-linejoin="round"/></svg>
+    <svg class="floaty" style="bottom:12%;right:32%" width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 22s-8-5.2-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 5.8-8 11-8 11z" stroke="#a8b79b" stroke-width="2" stroke-linejoin="round"/></svg>
   </div>
 
   <p class="kicker">Un bebé viene en camino</p>
@@ -27,12 +28,9 @@
   <p class="sub">Gracias por acompañarnos en esta aventura. Aquí van algunas ideas de cosas que nos harían mucha ilusión — elige una y resérvala para que no haya regalos repetidos.</p>
   <span class="hand">— con muchísimas ganas de conocerte 💙</span>
 
-  <div class="progress-wrap">
-    <div class="progress-label">
-      <span>Regalos elegidos</span>
-      <span id="progress-count">…</span>
-    </div>
-    <div class="progress-bar"><div class="progress-fill" id="progress-fill"></div></div>
+  <div class="clothesline-wrap">
+    <svg id="clothesline" viewBox="0 0 600 96" aria-hidden="true"></svg>
+    <div class="clothesline-label" id="progress-count">…</div>
   </div>
 </header>
 
@@ -61,6 +59,8 @@
 <!-- modal de reserva -->
 <div class="modal-backdrop" id="modal-backdrop">
   <div class="modal" id="modal">
+    <span class="tag-hole" aria-hidden="true"></span>
+    <svg class="tag-string" width="110" height="80" viewBox="0 0 110 80" fill="none" aria-hidden="true"><path d="M4 6 C 30 10, 44 28, 55 56" stroke="#8d7f68" stroke-width="2" stroke-linecap="round" stroke-dasharray="1 5"/></svg>
     <div id="modal-form">
       <h3>Reservar <span class="gift-name" id="modal-gift-name"></span></h3>
       <p class="note">Al reservarlo, desaparecerá como disponible para el resto de invitados. Tu nombre es opcional y solo lo veremos nosotros.</p>

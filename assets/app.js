@@ -50,11 +50,72 @@ async function loadGifts() {
   render();
 }
 
+// hash estable por id → rotación/variación de cada papelito
+function seededRot(id, spread = 2.1) {
+  let h = 0;
+  for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) % 997;
+  return ((h / 997) * 2 - 1) * spread;
+}
+
+const TAPE_COLOR = {
+  'Paseo y porteo': '#f0dfc0',
+  'Sueño': '#dce9f1',
+  'Alimentación': '#e7ecdf',
+  'Baño e higiene': '#dce9f1',
+  'Salud y hogar': '#f6e5dd',
+  'Juego': '#f6e5dd',
+  'Ropa': '#e7ecdf',
+  'Otros': '#f0dfc0',
+};
+
+// cuerda de tender: una prenda colgada por regalo elegido
+const GARMENT_COLORS = ['#92b4c8', '#a8b79b', '#d9a08b', '#e4c98e', '#5b7c93'];
+const GARMENTS = [
+  // body
+  'M9 1 L19 1 L27 8 L22 14 L20 12 L20 21 Q20 23 18 23 L10 23 Q8 23 8 21 L8 12 L6 14 L1 8 Z',
+  // camiseta
+  'M9 1 L19 1 L27 7 L23 12 L20 10 L20 19 Q20 21 18 21 L10 21 Q8 21 8 19 L8 10 L5 12 L1 7 Z M12 1 Q14 4 16 1',
+  // pantaloncito
+  'M6 2 L22 2 L24 20 Q24 22 22 22 L17 22 L14 10 L11 22 L6 22 Q4 22 4 20 Z',
+];
+
 function updateProgress() {
   const total = gifts.length;
   const taken = gifts.filter((g) => g.claimed).length;
-  $('#progress-count').textContent = `${taken} de ${total}`;
-  $('#progress-fill').style.width = total ? `${(taken / total) * 100}%` : '0%';
+  const label = $('#progress-count');
+  label.textContent = taken === 0
+    ? 'aún no hay regalos elegidos — ¡estrena la cuerda!'
+    : `${taken} de ${total} regalos ya tienen dueño`;
+
+  const svg = $('#clothesline');
+  const W = 600, ROPE_Y0 = 22, ROPE_MID = 58, ROPE_Y1 = 22;
+  const shown = Math.min(taken, 12);
+  const extra = taken - shown;
+  let parts = [
+    `<path d="M8 ${ROPE_Y0} Q ${W / 2} ${ROPE_MID} ${W - 8} ${ROPE_Y1}" stroke="#b8a98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
+    // pinzas de los extremos
+    `<line x1="8" y1="${ROPE_Y0 - 8}" x2="8" y2="${ROPE_Y0 + 4}" stroke="#8d7f68" stroke-width="3" stroke-linecap="round"/>`,
+    `<line x1="${W - 8}" y1="${ROPE_Y1 - 8}" x2="${W - 8}" y2="${ROPE_Y1 + 4}" stroke="#8d7f68" stroke-width="3" stroke-linecap="round"/>`,
+  ];
+  for (let i = 0; i < shown; i++) {
+    const t = shown === 1 ? 0.5 : 0.09 + (i / (shown - 1)) * 0.82;
+    // punto sobre la curva cuadrática
+    const x = (1 - t) ** 2 * 8 + 2 * (1 - t) * t * (W / 2) + t ** 2 * (W - 8);
+    const y = (1 - t) ** 2 * ROPE_Y0 + 2 * (1 - t) * t * ROPE_MID + t ** 2 * ROPE_Y1;
+    const color = GARMENT_COLORS[i % GARMENT_COLORS.length];
+    const shape = GARMENTS[i % GARMENTS.length];
+    parts.push(`
+      <g transform="translate(${x - 14}, ${y - 1})">
+        <g class="garment" style="animation-delay:${i * 0.08}s, ${i * 0.4}s">
+          <rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/>
+          <g transform="translate(0, 4)"><path d="${shape}" fill="${color}" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22" stroke-width="1"/></g>
+        </g>
+      </g>`);
+  }
+  if (extra > 0) {
+    parts.push(`<text x="${W - 14}" y="${ROPE_Y1 + 46}" text-anchor="end" font-family="Caveat, cursive" font-size="22" fill="#7d766b" transform="rotate(-3 ${W - 14} ${ROPE_Y1 + 46})">…y ${extra} más 🎉</text>`);
+  }
+  svg.innerHTML = parts.join('');
 }
 
 function renderChips() {
@@ -74,19 +135,21 @@ function renderChips() {
 function cardHtml(g) {
   const mine = myClaims.has(g.id);
   const stamp = g.claimed
-    ? `<span class="claimed-stamp ${mine ? 'mine' : ''}">${mine ? 'Elegido por ti ✨' : 'Ya elegido 💝'}</span>`
-    : `<span class="corner-heart">🤍</span>`;
+    ? `<span class="claimed-stamp ${mine ? 'mine' : ''}">${mine ? '¡tuyo! ✨' : '¡elegido!'}</span>`
+    : '';
+  const rot = seededRot(g.id).toFixed(2);
+  const tape = TAPE_COLOR[g.category] || TAPE_COLOR['Otros'];
   return `
-    <article class="card ${g.claimed ? 'claimed' : ''}" data-id="${g.id}">
+    <article class="card ${g.claimed ? 'claimed' : ''}" data-id="${g.id}" style="--r:${rot}deg; --tape:${tape}">
       ${stamp}
       ${g.image_url ? `<img class="gift-img" src="${escapeHtml(g.image_url)}" alt="" loading="lazy">` : ''}
       <h3>${escapeHtml(g.name)}</h3>
-      ${g.description ? `<p class="desc">${escapeHtml(g.description)}</p>` : '<p class="desc"></p>'}
+      ${g.description ? `<p class="desc">${escapeHtml(g.description)}</p>` : ''}
       <div class="meta">
-        ${g.price_hint ? `<span class="price-tag">${escapeHtml(g.price_hint)}</span>` : ''}
-        ${g.url ? `<a class="idea-link" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">Ver idea ↗</a>` : ''}
+        ${g.price_hint ? `<span class="price-tag">≈ ${escapeHtml(g.price_hint)}</span>` : ''}
+        ${g.url ? `<a class="idea-link" href="${escapeHtml(g.url)}" target="_blank" rel="noopener">ver idea ↗</a>` : ''}
       </div>
-      ${g.claimed ? '' : `<button class="btn-claim" data-claim="${g.id}">Lo regalo yo 🎁</button>`}
+      ${g.claimed ? '' : `<button class="btn-claim" data-claim="${g.id}">✂️ &nbsp;lo regalo yo</button>`}
     </article>`;
 }
 
