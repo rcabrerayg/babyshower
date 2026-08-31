@@ -3,31 +3,37 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Invitación · Baby Shower 💙</title>
+  <title>Invitación · Baby Shower 🦁</title>
   <meta name="robots" content="noindex">
   <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>💌</text></svg>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Young+Serif&family=Karla:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400..650;1,9..144,400..650&family=Karla:wght@400;700&family=Caveat:wght@600&display=swap" rel="stylesheet">
   <style>
     :root {
-      --paper: #faf6ef;
-      --paper-deep: #f3ecdf;
-      --card: #fffdf8;
-      --ink: #3e3a34;
-      --ink-soft: #7d766b;
-      --line: #e7ddcc;
-      --rope: #b8a98f;
-      --blue: #92b4c8;
-      --blue-deep: #5b7c93;
-      --blue-mist: #dce9f1;
-      --sage: #a8b79b;
-      --sage-mist: #e7ecdf;
-      --terra: #d9a08b;
-      --terra-mist: #f6e5dd;
-      --butter: #f0dfc0;
+      --paper: #f7f3e3;
+      --paper-deep: #ece7d0;
+      --card: #fffdf2;
+      --ink: #26331f;
+      --ink-soft: #6e7a5c;
+      --line: #ddddc2;
+      --rope: #a99a76;
+      --canopy: #0f231a;
+      --canopy-2: #17331f;
+      --vein: #3f6b44;
+      --emerald: #2e5d3f;
+      --leaf: #6f9e63;
+      --leaf-mist: #e0ebcf;
+      --sage: #a4b894;
+      --sage-mist: #e8eeda;
+      --banana: #f5c95c;
+      --banana-soft: #f8e3ae;
+      --papaya: #e0784f;
+      --papaya-deep: #bd5732;
+      --papaya-mist: #f8e0d0;
     }
     * { margin: 0; padding: 0; box-sizing: border-box; }
+    html, body { overflow-x: hidden; }
     body {
       font-family: "Karla", sans-serif;
       background: var(--paper-deep);
@@ -39,12 +45,10 @@
     .invite {
       position: relative;
       width: 540px; height: 810px;
-      margin: 0 auto;
-      background:
-        radial-gradient(38rem 20rem at 50% -6rem, var(--blue-mist) 0%, transparent 60%),
-        linear-gradient(var(--paper-deep), var(--paper) 30%);
+      margin: 0;
+      background: var(--paper);
       overflow: hidden;
-      transform-origin: top center;
+      transform-origin: top left;
     }
     /* grano de papel */
     .invite::after {
@@ -55,58 +59,76 @@
       background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3CfeColorMatrix values='0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.035 0'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
     }
 
-    .doodle { position: absolute; }
+    /* banda del dosel */
+    .jungle-top {
+      position: relative;
+      color: var(--paper);
+      text-align: center;
+      padding: 84px 2rem 52px;
+      background:
+        radial-gradient(30rem 16rem at 50% -8rem, #3a6749 0%, transparent 62%),
+        linear-gradient(172deg, #16301f, #1e4128 45%, #2c5a3a);
+    }
+    .jungle-top .band-divider {
+      position: absolute; left: 0; right: 0; bottom: -1px;
+      width: 100%; height: 30px; display: block;
+    }
+    .doodle { position: absolute; pointer-events: none; }
 
-    .content { position: relative; z-index: 1; text-align: center; padding: 1.6rem 2.2rem 0; }
+    .ff {
+      position: absolute;
+      width: 5px; height: 5px; border-radius: 50%;
+      background: #ffeaa6;
+      box-shadow: 0 0 9px 3px rgba(255, 234, 166, .5);
+      opacity: .8;
+    }
+    .ff.dim { opacity: .45; width: 4px; height: 4px; }
 
     .kicker {
-      font-size: .72rem;
-      letter-spacing: .32em;
+      position: relative;
+      font-size: .66rem;
+      letter-spacing: .3em;
       text-transform: uppercase;
-      color: var(--blue-deep);
+      color: var(--banana);
       font-weight: 700;
-      margin-top: 3.4rem;
     }
     h1 {
-      font-family: "Young Serif", serif;
-      font-weight: 400;
+      position: relative;
+      font-family: "Fraunces", serif;
+      font-weight: 550;
       font-size: 3.1rem;
-      line-height: 1.08;
-      margin: .55rem 0 .2rem;
+      line-height: 1.06;
+      margin: .5rem 0 .2rem;
+      text-shadow: 0 2px 0 rgba(0, 0, 0, .25);
     }
     h1 em {
-      font-style: normal;
-      color: var(--blue-deep);
+      font-style: italic;
+      color: var(--banana);
       position: relative;
       white-space: nowrap;
     }
-    h1 em::after {
-      content: "";
-      position: absolute; left: 0; right: 0; bottom: .08em;
-      height: .28em;
-      background: var(--butter);
-      z-index: -1;
-      border-radius: 3px;
-    }
     .hand {
+      position: relative;
       font-family: "Caveat", cursive;
       font-weight: 600;
-      color: var(--terra);
+      color: var(--banana-soft);
       font-size: 1.45rem;
       transform: rotate(-1.5deg);
       display: inline-block;
     }
+
+    .content { position: relative; z-index: 1; text-align: center; padding: 0 2.2rem; }
 
     /* nota con fecha y lugar */
     .when {
       position: relative;
       background: var(--card);
       border: 1px solid var(--line);
-      margin: 1.5rem auto 0;
+      margin: 1.35rem auto 0;
       max-width: 420px;
       padding: 1.05rem 1.2rem 1rem;
       transform: rotate(-1deg);
-      box-shadow: 0 10px 22px -14px rgba(62,58,52,.4);
+      box-shadow: 0 10px 22px -14px rgba(15, 35, 26, .45);
       text-align: center;
     }
     .when::before {
@@ -114,12 +136,13 @@
       position: absolute; top: -11px; left: 50%;
       width: 92px; height: 24px;
       transform: translateX(-50%) rotate(2deg);
-      background: var(--terra-mist);
+      background: var(--banana-soft);
       clip-path: polygon(3% 10%, 0 50%, 3% 92%, 97% 100%, 100% 45%, 96% 0);
-      box-shadow: 0 2px 4px -2px rgba(62,58,52,.3);
+      box-shadow: 0 2px 4px -2px rgba(15, 35, 26, .35);
     }
     .when .date {
-      font-family: "Young Serif", serif;
+      font-family: "Fraunces", serif;
+      font-weight: 550;
       font-size: 1.42rem;
       line-height: 1.25;
     }
@@ -127,7 +150,7 @@
       font-family: "Caveat", cursive;
       font-weight: 600;
       font-size: 1.6rem;
-      color: var(--blue-deep);
+      color: var(--emerald);
       margin: .05rem 0 .5rem;
     }
     .where {
@@ -143,7 +166,7 @@
       border: 1px solid var(--line);
       padding: 6px;
       transform: rotate(2deg);
-      box-shadow: 0 2px 6px -2px rgba(62,58,52,.3);
+      box-shadow: 0 2px 6px -2px rgba(15, 35, 26, .3);
     }
     .where .qr-mini img { width: 100%; height: 100%; display: block; }
     .where .place { font-size: .88rem; line-height: 1.4; }
@@ -158,27 +181,38 @@
     }
 
     /* polaroid con el QR de la lista */
+    /* jirafa asomándose tras la polaroid, como la de cartón del salón */
+    .peek {
+      position: absolute;
+      left: 50%;
+      margin-top: .55rem;
+      font-size: 2.6rem;
+      line-height: 1;
+      transform: translateX(-136px) rotate(-16deg);
+      z-index: 0;
+    }
     .qr-polaroid {
       position: relative;
+      z-index: 1;
       display: inline-block;
       background: #fff;
       padding: 14px 14px 10px;
       border: 1px solid var(--line);
-      box-shadow: 0 14px 28px -16px rgba(62,58,52,.5);
+      box-shadow: 0 14px 28px -16px rgba(15, 35, 26, .55);
       transform: rotate(1.6deg);
-      margin-top: 1.9rem;
+      margin-top: 1.6rem;
     }
     .qr-polaroid::before {
       content: "";
       position: absolute; top: -12px; left: 50%;
       width: 84px; height: 24px;
       transform: translateX(-58%) rotate(-3deg);
-      background: var(--blue-mist);
+      background: var(--leaf-mist);
       opacity: .92;
       clip-path: polygon(3% 10%, 0 50%, 3% 92%, 97% 100%, 100% 45%, 96% 0);
-      box-shadow: 0 2px 4px -2px rgba(62,58,52,.3);
+      box-shadow: 0 2px 4px -2px rgba(15, 35, 26, .35);
     }
-    .qr-polaroid img { width: 168px; height: 168px; display: block; }
+    .qr-polaroid img { width: 158px; height: 158px; display: block; }
     .qr-polaroid figcaption {
       font-family: "Caveat", cursive;
       font-weight: 600;
@@ -191,15 +225,15 @@
       font-weight: 600;
       font-size: 1.3rem;
       color: var(--ink-soft);
-      margin-top: 1.2rem;
+      margin-top: 1.05rem;
       transform: rotate(-1deg);
     }
     .closing {
       font-family: "Caveat", cursive;
       font-weight: 600;
       font-size: 1.55rem;
-      color: var(--blue-deep);
-      margin-top: .7rem;
+      color: var(--emerald);
+      margin-top: .55rem;
     }
 
     /* botones solo para quien abre la página (fuera de la captura) */
@@ -215,31 +249,31 @@
       font-size: 1.35rem;
       text-decoration: none;
       color: #fff;
-      background: var(--blue-deep);
+      background: var(--emerald);
       padding: .5rem 1.4rem .6rem;
       border-radius: 8px;
-      box-shadow: 2px 3px 0 rgba(62,58,52,.25);
+      box-shadow: 2px 3px 0 rgba(15, 35, 26, .3);
     }
     .actions a.ghost { background: transparent; color: var(--ink); border: 1.6px dashed var(--ink); box-shadow: none; }
     .actions button.rsvp {
       font-family: "Caveat", cursive;
       font-weight: 600;
       font-size: 1.45rem;
-      color: #fff;
-      background: var(--ink);
+      color: var(--canopy);
+      background: var(--banana);
       border: none;
       padding: .5rem 1.5rem .6rem;
       border-radius: 8px;
-      box-shadow: 2px 3px 0 rgba(62,58,52,.25);
+      box-shadow: 0 3px 0 var(--papaya-deep), 2px 5px 10px -4px rgba(15, 35, 26, .4);
       cursor: pointer;
       transition: transform .15s ease;
     }
     .actions button.rsvp:hover { transform: translateY(-2px); }
 
-    /* ————— modal RSVP: etiqueta kraft ————— */
+    /* ————— modal RSVP: etiqueta de expedición ————— */
     .modal-backdrop {
       position: fixed; inset: 0; z-index: 100;
-      background: rgba(62,58,52,.38);
+      background: rgba(12, 29, 20, .55);
       backdrop-filter: blur(4px);
       display: none;
       align-items: center; justify-content: center;
@@ -247,12 +281,12 @@
     }
     .modal-backdrop.open { display: flex; }
     .modal {
-      background: linear-gradient(160deg, #f7efdd, #f1e6cf);
+      background: linear-gradient(160deg, #f5efd8, #ece3c4);
       border-radius: 8px;
       max-width: 27rem; width: 100%;
       max-height: 92vh; overflow-y: auto;
       padding: 2.2rem 1.8rem 1.8rem;
-      box-shadow: 0 30px 80px -20px rgba(62,58,52,.5);
+      box-shadow: 0 30px 80px -20px rgba(0, 0, 0, .6);
       clip-path: polygon(0 34px, 34px 0, 100% 0, 100% 100%, 0 100%);
       animation: tagDrop .45s cubic-bezier(.22,1.4,.36,1) both;
       position: relative;
@@ -264,13 +298,13 @@
     .modal .tag-hole {
       position: absolute; top: 16px; left: 24px;
       width: 15px; height: 15px;
-      background: rgba(62,58,52,.32);
+      background: rgba(38, 51, 31, .32);
       border-radius: 50%;
       box-shadow: inset 0 1.5px 3px rgba(0,0,0,.35), 0 1px 0 rgba(255,255,255,.5);
     }
     .modal h3 {
-      font-family: "Young Serif", serif;
-      font-weight: 400; font-size: 1.3rem;
+      font-family: "Fraunces", serif;
+      font-weight: 550; font-size: 1.3rem;
       margin: .3rem 0 .2rem;
     }
     .modal p.note { font-size: .85rem; color: var(--ink-soft); margin-bottom: .6rem; }
@@ -284,7 +318,7 @@
     }
     .modal input[type="text"], .modal textarea, .modal select {
       width: 100%;
-      font-family: "Caveat", cursive; font-size: 1.3rem;
+      font-family: "Caveat", cursive; font-weight: 600; font-size: 1.3rem;
       padding: .28rem .2rem;
       border: none;
       border-bottom: 1.6px dashed var(--rope);
@@ -294,8 +328,8 @@
       outline: none;
     }
     .modal select { border-bottom-style: solid; cursor: pointer; }
-    .modal input:focus, .modal textarea:focus { border-bottom: 1.6px solid var(--blue-deep); }
-    .modal ::placeholder { color: rgba(125,118,107,.55); }
+    .modal input:focus, .modal textarea:focus { border-bottom: 1.6px solid var(--emerald); }
+    .modal ::placeholder { color: rgba(110, 122, 92, .6); }
     .pill-group { display: flex; flex-wrap: wrap; gap: .45rem; margin-top: .3rem; }
     .pill-group label {
       font-family: "Caveat", cursive;
@@ -311,8 +345,8 @@
     }
     .pill-group input { display: none; }
     .pill-group label:has(input:checked) {
-      background: var(--blue-deep);
-      border-color: var(--blue-deep);
+      background: var(--emerald);
+      border-color: var(--emerald);
       border-style: solid;
       color: #fff;
     }
@@ -331,26 +365,26 @@
     }
     .attend-group input { display: none; }
     .attend-group label:has(input:checked) {
-      background: var(--sage-mist);
-      border: 1.6px solid var(--sage);
+      background: var(--leaf-mist);
+      border: 1.6px solid var(--leaf);
       color: var(--ink);
     }
     .attend-group label.no:has(input:checked) {
-      background: var(--terra-mist);
-      border-color: var(--terra);
+      background: var(--papaya-mist);
+      border-color: var(--papaya);
     }
     .modal-actions { display: flex; gap: .6rem; margin-top: 1.4rem; }
     .btn {
-      font-family: "Caveat", cursive; font-size: 1.3rem; line-height: 1;
+      font-family: "Caveat", cursive; font-weight: 600; font-size: 1.3rem; line-height: 1;
       padding: .65rem 1.2rem .72rem; border-radius: 6px;
       cursor: pointer; border: 1.5px solid transparent;
       transition: all .2s ease;
     }
     .btn-primary {
-      background: var(--blue-deep); color: #fff; flex: 1;
-      box-shadow: 2px 3px 0 rgba(62,58,52,.25);
+      background: var(--emerald); color: #fff; flex: 1;
+      box-shadow: 2px 3px 0 rgba(15, 35, 26, .3);
     }
-    .btn-primary:hover { background: var(--ink); }
+    .btn-primary:hover { background: var(--canopy-2); }
     .btn-primary:disabled { opacity: .5; cursor: wait; }
     .btn-ghost { background: transparent; border-color: var(--rope); color: var(--ink-soft); }
     .success-view { text-align: center; padding: 1.2rem 0 .6rem; }
@@ -360,33 +394,74 @@
     #rsvp-error {
       display: none;
       font-family: "Caveat", cursive; font-weight: 600;
-      color: #c0604a; font-size: 1.15rem; margin-top: .6rem;
+      color: var(--papaya-deep); font-size: 1.15rem; margin-top: .6rem;
     }
   </style>
 </head>
 <body>
 
 <div class="invite" id="invite">
-  <!-- cuerda de tender con ropita y banderín -->
-  <svg class="doodle" style="top:0;left:0" width="540" height="86" viewBox="0 0 540 86">
-    <path d="M-8 18 Q270 62 548 18" stroke="#b8a98f" stroke-width="2.5" fill="none"/>
-    <g transform="translate(88,32)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/><g transform="translate(0,4)"><path d="M9 1 L19 1 L27 8 L22 14 L20 12 L20 21 Q20 23 18 23 L10 23 Q8 23 8 21 L8 12 L6 14 L1 8 Z" fill="#92b4c8" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22"/></g></g>
-    <g transform="translate(228,42)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/><g transform="translate(0,4)"><path d="M6 2 L22 2 L24 20 Q24 22 22 22 L17 22 L14 10 L11 22 L6 22 Q4 22 4 20 Z" fill="#d9a08b" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22"/></g></g>
-    <g transform="translate(368,38)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/><g transform="translate(0,4)"><path d="M9 1 L19 1 L27 7 L23 12 L20 10 L20 19 Q20 21 18 21 L10 21 Q8 21 8 19 L8 10 L5 12 L1 7 Z" fill="#a8b79b" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22"/></g></g>
-    <g transform="translate(468,26)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/><g transform="translate(0,4)"><path d="M9 1 L19 1 L27 8 L22 14 L20 12 L20 21 Q20 23 18 23 L10 23 Q8 23 8 21 L8 12 L6 14 L1 8 Z" fill="#e4c98e" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22"/></g></g>
-  </svg>
+  <div class="jungle-top">
+    <!-- liana con ropita del peque -->
+    <svg class="doodle" style="top:0;left:0" width="540" height="86" viewBox="0 0 540 86">
+      <path d="M-8 18 Q270 62 548 18" stroke="#6f8f57" stroke-width="3" fill="none"/>
+      <path d="M-8 21 Q270 67 548 21" stroke="#4c6b3c" stroke-width="1.3" fill="none" stroke-dasharray="6 9"/>
+      <path d="M60 26 c -3 -8 -9 -12 -15 -11 c 1 9 7 13 15 11 Z" fill="#86a86a"/>
+      <path d="M320 47 c 3 8 9 12 15 11 c -1 -9 -7 -13 -15 -11 Z" fill="#86a86a"/>
+      <path d="M500 24 c -3 -8 -9 -12 -15 -11 c 1 9 7 13 15 11 Z" fill="#86a86a"/>
+      <g transform="translate(88,32)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#4c6b3c"/><g transform="translate(0,4)"><path d="M9 1 L19 1 L27 8 L22 14 L20 12 L20 21 Q20 23 18 23 L10 23 Q8 23 8 21 L8 12 L6 14 L1 8 Z" fill="#9cc27e" fill-opacity=".95" stroke="#0c1d14" stroke-opacity=".35"/></g></g>
+      <g transform="translate(228,42)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#4c6b3c"/><g transform="translate(0,4)"><path d="M6 2 L22 2 L24 20 Q24 22 22 22 L17 22 L14 10 L11 22 L6 22 Q4 22 4 20 Z" fill="#e0784f" fill-opacity=".95" stroke="#0c1d14" stroke-opacity=".35"/></g></g>
+      <g transform="translate(368,38)"><rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#4c6b3c"/><g transform="translate(0,4)"><path d="M9 1 L19 1 L27 7 L23 12 L20 10 L20 19 Q20 21 18 21 L10 21 Q8 21 8 19 L8 10 L5 12 L1 7 Z" fill="#f5c95c" fill-opacity=".95" stroke="#0c1d14" stroke-opacity=".35"/></g></g>
+      <g transform="translate(452,24)"><text x="14" y="34" font-size="26" transform="rotate(8 14 34)">🐒</text></g>
+    </svg>
 
-  <!-- doodles -->
-  <svg class="doodle" style="top:108px;left:30px" width="44" height="44" viewBox="0 0 52 52" fill="none"><path d="M36 8a17 17 0 1 0 8 29c-5 3-12 3-17-2a15 15 0 0 1 9-27z" stroke="#c9b891" stroke-width="2.2" stroke-linejoin="round"/></svg>
-  <svg class="doodle" style="top:150px;right:36px" width="28" height="28" viewBox="0 0 32 32" fill="none"><path d="M16 3l3.2 9.4L29 16l-9.8 3.6L16 29l-3.2-9.4L3 16l9.8-3.6z" stroke="#92b4c8" stroke-width="2" stroke-linejoin="round"/></svg>
-  <svg class="doodle" style="bottom:120px;left:28px" width="22" height="22" viewBox="0 0 32 32" fill="none"><path d="M16 3l3.2 9.4L29 16l-9.8 3.6L16 29l-3.2-9.4L3 16l9.8-3.6z" stroke="#d9a08b" stroke-width="2" stroke-linejoin="round"/></svg>
-  <svg class="doodle" style="bottom:70px;right:30px" width="26" height="26" viewBox="0 0 26 26" fill="none"><path d="M13 22s-8-5.2-8-11a5 5 0 0 1 8-4 5 5 0 0 1 8 4c0 5.8-8 11-8 11z" stroke="#a8b79b" stroke-width="2" stroke-linejoin="round"/></svg>
+    <!-- follaje de las esquinas -->
+    <svg class="doodle" style="top:52px;left:-10px" width="120" height="190" viewBox="0 0 120 190" fill="none">
+      <path d="M-30 -10 C 30 -4 66 28 64 72 C 34 76 2 54 -30 18 Z" fill="#1d3b27"/>
+      <path d="M-20 60 C 24 64 50 92 46 130 C 14 128 -12 104 -20 72 Z" fill="#24452c"/>
+      <path d="M-16 66 C 8 84 28 102 42 124" stroke="#3f6b44" stroke-width="2"/>
+      <path d="M-12 130 C 22 132 42 154 44 184 C 12 182 -8 160 -12 130 Z" fill="#1d3b27"/>
+      <circle cx="58" cy="96" r="3.5" fill="#f5c95c"/>
+      <circle cx="66" cy="106" r="2.5" fill="#e0a83c"/>
+    </svg>
+    <svg class="doodle" style="top:52px;right:-10px;transform:scaleX(-1)" width="120" height="190" viewBox="0 0 120 190" fill="none">
+      <path d="M-30 -10 C 30 -4 66 28 64 72 C 34 76 2 54 -30 18 Z" fill="#1d3b27"/>
+      <path d="M-20 60 C 24 64 50 92 46 130 C 14 128 -12 104 -20 72 Z" fill="#24452c"/>
+      <path d="M-16 66 C 8 84 28 102 42 124" stroke="#3f6b44" stroke-width="2"/>
+      <path d="M-12 130 C 22 132 42 154 44 184 C 12 182 -8 160 -12 130 Z" fill="#1d3b27"/>
+      <circle cx="58" cy="96" r="3.5" fill="#f5c95c"/>
+      <circle cx="66" cy="106" r="2.5" fill="#e0a83c"/>
+    </svg>
 
-  <div class="content">
-    <p class="kicker">Un bebé viene en camino</p>
+    <!-- luciérnagas -->
+    <span class="ff" style="top:104px;left:150px"></span>
+    <span class="ff dim" style="top:150px;left:118px"></span>
+    <span class="ff" style="top:120px;right:140px"></span>
+    <span class="ff dim" style="top:176px;right:110px"></span>
+
+    <p class="kicker">Nuestro pequeño explorador viene en camino</p>
     <h1>¡Baby <em>Shower!</em></h1>
     <span class="hand">ven a celebrar con nosotros la llegada del peque 💙</span>
 
+    <!-- borde de hojas hacia el claro -->
+    <svg class="band-divider" viewBox="0 0 540 30" preserveAspectRatio="none">
+      <path d="M0 30 L0 18 C30 4 60 24 100 14 C140 4 170 24 210 14 C250 4 280 22 320 13 C360 4 390 24 430 14 C470 4 505 22 540 12 L540 30 Z" fill="#f7f3e3"/>
+    </svg>
+  </div>
+
+  <!-- hojas suaves del pie de la tarjeta -->
+  <svg class="doodle" style="bottom:-8px;left:-8px" width="150" height="110" viewBox="0 0 150 110" fill="none">
+    <path d="M-20 110 C -8 62 30 34 80 36 C 74 82 40 108 -20 110 Z" fill="#dce7c8"/>
+    <path d="M-10 102 C 16 78 44 58 70 44" stroke="#a4b894" stroke-width="2"/>
+    <path d="M60 110 C 72 84 96 70 124 72 C 118 98 96 112 60 110 Z" fill="#e8eeda"/>
+  </svg>
+  <svg class="doodle" style="bottom:-8px;right:-8px;transform:scaleX(-1)" width="150" height="110" viewBox="0 0 150 110" fill="none">
+    <path d="M-20 110 C -8 62 30 34 80 36 C 74 82 40 108 -20 110 Z" fill="#dce7c8"/>
+    <path d="M-10 102 C 16 78 44 58 70 44" stroke="#a4b894" stroke-width="2"/>
+    <path d="M60 110 C 72 84 96 70 124 72 C 118 98 96 112 60 110 Z" fill="#e8eeda"/>
+  </svg>
+
+  <div class="content">
     <div class="when">
       <p class="date">Sábado 3 de octubre</p>
       <p class="time">a las 17:00</p>
@@ -400,9 +475,10 @@
       </div>
     </div>
 
+    <span class="peek" aria-hidden="true">🦒</span>
     <figure class="qr-polaroid">
       <img src="assets/qr-lista.svg" alt="QR de la lista de deseos">
-      <figcaption>✂️ nuestra lista de deseos</figcaption>
+      <figcaption>🌿 nuestra lista de deseos</figcaption>
     </figure>
 
     <p class="no-pressure">sin ningún compromiso: lo importante eres tú 🤍</p>
@@ -471,7 +547,7 @@
     </div>
 
     <div id="rsvp-success" class="success-view" style="display:none">
-      <div class="big">🧸</div>
+      <div class="big">🦁</div>
       <h3 id="rsvp-success-title">¡Anotado!</h3>
       <p id="rsvp-success-text">Mil gracias por confirmar.<br>¡Nos vemos el 3 de octubre! 💙</p>
       <div class="modal-actions">
@@ -485,10 +561,13 @@
 <script src="assets/config.js"></script>
 <script>
   // en pantallas estrechas, escala la tarjeta completa
+  // (scale no reduce el ancho de layout: se centra a mano con margin-left
+  // para que en móvil no quede cortada ni genere scroll lateral)
   function fit() {
     const s = Math.min(1, window.innerWidth / 540);
     const el = document.getElementById('invite');
     el.style.transform = `scale(${s})`;
+    el.style.marginLeft = `${Math.max(0, (window.innerWidth - 540 * s) / 2)}px`;
     el.style.marginBottom = `${(s - 1) * 810}px`;
   }
   fit();

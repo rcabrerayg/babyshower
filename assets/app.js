@@ -3,12 +3,12 @@
 const sb = window.supabase.createClient(window.BABY_CONFIG.url, window.BABY_CONFIG.anonKey);
 
 const CAT_EMOJI = {
-  'Paseo y porteo': '🦆',
+  'Paseo y porteo': '🦜',
   'Sueño': '🌙',
   'Alimentación': '🍼',
-  'Baño e higiene': '🫧',
+  'Baño e higiene': '🐊',
   'Salud y hogar': '🏡',
-  'Juego': '🧸',
+  'Juego': '🐒',
   'Ropa': '🧦',
   'Recuerdos': '📸',
   'Para los papás': '🤍',
@@ -66,20 +66,20 @@ function seededRot(id, spread = 2.1) {
 }
 
 const TAPE_COLOR = {
-  'Paseo y porteo': '#f0dfc0',
-  'Sueño': '#dce9f1',
-  'Alimentación': '#e7ecdf',
-  'Baño e higiene': '#dce9f1',
-  'Salud y hogar': '#f6e5dd',
-  'Juego': '#f6e5dd',
-  'Ropa': '#e7ecdf',
-  'Recuerdos': '#f0dfc0',
-  'Para los papás': '#f6e5dd',
-  'Otros': '#f0dfc0',
+  'Paseo y porteo': '#f8e3ae',
+  'Sueño': '#d9e9e2',
+  'Alimentación': '#e8eeda',
+  'Baño e higiene': '#d9e9e2',
+  'Salud y hogar': '#f8e0d0',
+  'Juego': '#f4dde4',
+  'Ropa': '#e0ebcf',
+  'Recuerdos': '#f8e3ae',
+  'Para los papás': '#f8e0d0',
+  'Otros': '#e0ebcf',
 };
 
-// cuerda de tender: una prenda colgada por regalo elegido
-const GARMENT_COLORS = ['#92b4c8', '#a8b79b', '#d9a08b', '#e4c98e', '#5b7c93'];
+// liana de regalos: una prenda colgada por regalo elegido
+const GARMENT_COLORS = ['#9cc27e', '#f5c95c', '#e0784f', '#7fb0a3', '#d97fa0'];
 const GARMENTS = [
   // body
   'M9 1 L19 1 L27 8 L22 14 L20 12 L20 21 Q20 23 18 23 L10 23 Q8 23 8 21 L8 12 L6 14 L1 8 Z',
@@ -95,36 +95,46 @@ function updateProgress() {
   const taken = normal.filter((g) => g.claimed).length;
   const label = $('#progress-count');
   label.textContent = taken === 0
-    ? 'aún no hay regalos elegidos — ¡estrena la cuerda!'
+    ? 'aún no hay regalos elegidos — ¡estrena la liana!'
     : `${taken} de ${total} regalos ya tienen dueño`;
 
   const svg = $('#clothesline');
   const W = 600, ROPE_Y0 = 22, ROPE_MID = 58, ROPE_Y1 = 22;
+  // punto sobre la curva cuadrática
+  const qx = (t) => (1 - t) ** 2 * 8 + 2 * (1 - t) * t * (W / 2) + t ** 2 * (W - 8);
+  const qy = (t) => (1 - t) ** 2 * ROPE_Y0 + 2 * (1 - t) * t * ROPE_MID + t ** 2 * ROPE_Y1;
   const shown = Math.min(taken, 12);
   const extra = taken - shown;
   let parts = [
-    `<path d="M8 ${ROPE_Y0} Q ${W / 2} ${ROPE_MID} ${W - 8} ${ROPE_Y1}" stroke="#b8a98f" stroke-width="2.5" fill="none" stroke-linecap="round"/>`,
-    // pinzas de los extremos
-    `<line x1="8" y1="${ROPE_Y0 - 8}" x2="8" y2="${ROPE_Y0 + 4}" stroke="#8d7f68" stroke-width="3" stroke-linecap="round"/>`,
-    `<line x1="${W - 8}" y1="${ROPE_Y1 - 8}" x2="${W - 8}" y2="${ROPE_Y1 + 4}" stroke="#8d7f68" stroke-width="3" stroke-linecap="round"/>`,
+    // liana: trazo grueso + zarcillo punteado
+    `<path d="M8 ${ROPE_Y0} Q ${W / 2} ${ROPE_MID} ${W - 8} ${ROPE_Y1}" stroke="#6f8f57" stroke-width="3" fill="none" stroke-linecap="round"/>`,
+    `<path d="M8 ${ROPE_Y0 + 3} Q ${W / 2} ${ROPE_MID + 5} ${W - 8} ${ROPE_Y1 + 3}" stroke="#4c6b3c" stroke-width="1.3" fill="none" stroke-linecap="round" stroke-dasharray="6 9"/>`,
   ];
+  // hojitas repartidas por la liana
+  [0.03, 0.16, 0.31, 0.5, 0.69, 0.84, 0.97].forEach((t, i) => {
+    const x = qx(t), y = qy(t);
+    const f = i % 2 ? 1 : -1;      // izquierda/derecha
+    const d = i % 3 === 2 ? 1 : -1; // alguna hoja hacia abajo
+    parts.push(`<path d="M${x} ${y} c ${3 * f} ${8 * d} ${9 * f} ${12 * d} ${15 * f} ${11 * d} c ${-1 * f} ${-9 * d} ${-7 * f} ${-13 * d} ${-15 * f} ${-11 * d} Z" fill="#86a86a" fill-opacity=".95"/>`);
+  });
+  // vecinos de la liana
+  parts.push(`<text x="10" y="${ROPE_Y0 - 5}" font-size="21">🦜</text>`);
+  parts.push(`<text x="${W - 34}" y="${ROPE_Y1 + 38}" font-size="26" transform="rotate(8 ${W - 21} ${ROPE_Y1 + 28})">🐒</text>`);
   for (let i = 0; i < shown; i++) {
     const t = shown === 1 ? 0.5 : 0.09 + (i / (shown - 1)) * 0.82;
-    // punto sobre la curva cuadrática
-    const x = (1 - t) ** 2 * 8 + 2 * (1 - t) * t * (W / 2) + t ** 2 * (W - 8);
-    const y = (1 - t) ** 2 * ROPE_Y0 + 2 * (1 - t) * t * ROPE_MID + t ** 2 * ROPE_Y1;
+    const x = qx(t), y = qy(t);
     const color = GARMENT_COLORS[i % GARMENT_COLORS.length];
     const shape = GARMENTS[i % GARMENTS.length];
     parts.push(`
       <g transform="translate(${x - 14}, ${y - 1})">
         <g class="garment" style="animation-delay:${i * 0.08}s, ${i * 0.4}s">
-          <rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#8d7f68"/>
-          <g transform="translate(0, 4)"><path d="${shape}" fill="${color}" fill-opacity=".9" stroke="#3e3a34" stroke-opacity=".22" stroke-width="1"/></g>
+          <rect x="12" y="-2" width="4" height="7" rx="1.5" fill="#4c6b3c"/>
+          <g transform="translate(0, 4)"><path d="${shape}" fill="${color}" fill-opacity=".95" stroke="#0c1d14" stroke-opacity=".35" stroke-width="1"/></g>
         </g>
       </g>`);
   }
   if (extra > 0) {
-    parts.push(`<text x="${W - 14}" y="${ROPE_Y1 + 46}" text-anchor="end" font-family="Caveat, cursive" font-size="22" fill="#7d766b" transform="rotate(-3 ${W - 14} ${ROPE_Y1 + 46})">…y ${extra} más 🎉</text>`);
+    parts.push(`<text x="${W - 14}" y="${ROPE_Y1 + 62}" text-anchor="end" font-family="Caveat, cursive" font-size="22" fill="#cfdcbe" transform="rotate(-3 ${W - 14} ${ROPE_Y1 + 62})">…y ${extra} más 🎉</text>`);
   }
   svg.innerHTML = parts.join('');
 }
@@ -154,7 +164,7 @@ function cardHtml(g) {
     : '';
   const button = g.claimed
     ? ''
-    : `<button class="btn-claim" data-claim="${g.id}">✂️ &nbsp;${g.unlimited ? 'yo también me apunto' : 'lo regalo yo'}</button>`;
+    : `<button class="btn-claim" data-claim="${g.id}">🌿 &nbsp;${g.unlimited ? 'yo también me apunto' : 'lo regalo yo'}</button>`;
   return `
     <article class="card ${g.claimed ? 'claimed' : ''} ${g.unlimited ? 'unlimited' : ''}" data-id="${g.id}" style="--r:${rot}deg; --tape:${tape}">
       ${g.unlimited ? '<span class="unlimited-badge">∞ para todos</span>' : stamp}
@@ -179,8 +189,8 @@ function render() {
 
   if (!visible.length) {
     listEl.innerHTML = q
-      ? '<div class="empty">No encontramos nada con esa búsqueda 🔍 ¡prueba con otra palabra!</div>'
-      : '<div class="empty">Nada por aquí… ¡prueba otra categoría! 🌿</div>';
+      ? '<div class="empty">No encontramos nada entre la maleza 🔍 ¡prueba con otra palabra!</div>'
+      : '<div class="empty">Nada por aquí… ¡explora otra categoría! 🐒</div>';
     return;
   }
 
@@ -323,7 +333,7 @@ function toast(msg) {
 
 function confettiBurst() {
   const modal = $('#modal');
-  const colors = ['#92b4c8', '#a8b79b', '#d9a08b', '#f0dfc0', '#5b7c93'];
+  const colors = ['#9cc27e', '#f5c95c', '#e0784f', '#6f9e63', '#d97fa0'];
   for (let i = 0; i < 26; i++) {
     const c = document.createElement('span');
     c.className = 'confetti';
